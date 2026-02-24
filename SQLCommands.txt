@@ -1,0 +1,58 @@
+select * from books
+
+select * from books where price =1000 and author = 'NotKnown'
+select * from books where price =500 and book_name = 'Harry'
+
+select * from books order by price ASC, book_name DESC
+
+select * from books order by book_name ASC
+
+select * from books where author = 'none' and book_name = 'DSA-Advanced'
+
+select * from books where author = 'none' OR book_name = 'DSA-Advanced'
+
+select * from books order by price DESC
+
+select author, count(*) as total_count from books group by author
+select book_name, count(*) as total_count from books group by book_name
+select author, sum(price) as total_count from books group by author
+
+select author, AVG(price) as average_price from books group by author
+
+select * from books where price in (3000, 500)
+
+select author, count(*) as total_count from books group by author having count(*) >1
+
+select author, count(*) as total_count from books group by author where count(*) >1
+
+select author, AVG(price) as average_price from books group by author having AVG(price) > 1 order by average_price ASC
+
+create TABLE students(
+student_id int PRIMARY KEY,
+student_name VARCHAR(50),
+department VARCHAR(50)
+)
+
+create TABLE student_marks(
+ mark_id int PRIMARY KEY,
+ student_id int,
+ subject_name VARCHAR(50),
+ mark int,
+ FOREIGN KEY(student_id) REFERENCES students(student_id)
+)
+
+insert into students values(1, 'Vignesh', 'EEE')
+insert into students values(2, 'Arun', 'ECE')
+insert into student_marks values (1, 1, 'Maths', 80)
+insert into student_marks values (2, 1, 'Science', 75)
+insert into student_marks values (3, 2, 'Science', 80)
+
+select * from student_marks
+
+select * from students
+
+select * from students s JOIN student_marks m ON s.student_id = m.student_id
+
+select s.student_id, s.student_name, s.department, m.subject_name, m.mark from students s 
+JOIN student_marks m ON s.student_id = m.student_id
+
