@@ -43,6 +43,7 @@ create TABLE student_marks(
 
 insert into students values(1, 'Vignesh', 'EEE')
 insert into students values(2, 'Arun', 'ECE')
+insert into students values(3, 'kumar', 'ECE')
 insert into student_marks values (1, 1, 'Maths', 80)
 insert into student_marks values (2, 1, 'Science', 75)
 insert into student_marks values (3, 2, 'Science', 80)
@@ -55,4 +56,72 @@ select * from students s JOIN student_marks m ON s.student_id = m.student_id
 
 select s.student_id, s.student_name, s.department, m.subject_name, m.mark from students s 
 JOIN student_marks m ON s.student_id = m.student_id
+
+select s.student_id, s.student_name, s.department, m.subject_name, m.mark 
+from students s LEFT JOIN student_marks m ON s.student_id = m.student_id
+
+select s.student_id, s.student_name, s.department, m.subject_name, m.mark 
+from students s RIGHT JOIN student_marks m ON s.student_id = m.student_id
+
+select s.student_id, s.student_name, s.department, m.subject_name, m.mark 
+from students s INNER JOIN student_marks m ON s.student_id = m.student_id
+
+select s.student_id, s.student_name, s.department, m.subject_name, m.mark 
+from students s LEFT JOIN student_marks m ON s.student_id = m.student_id where m.mark >75
+
+select s.student_id, s.student_name, s.department, m.subject_name, m.mark 
+from students s LEFT JOIN student_marks m ON s.student_id = m.student_id AND m.mark >75
+
+select * from students s FULL OUTER JOIN student_marks m ON s.student_id = m.student_id;
+
+select s.student_id, s.student_name, count(m.mark_id) as no_of_subject FROM students s 
+left join student_marks m ON s.student_id = m.student_id group by s.student_id, s.student_name
+
+select s.student_id, s.student_name, count(m.mark_id) as no_of_subject, AVG(m.mark) as Average_mark 
+FROM students s left join student_marks m ON s.student_id = m.student_id group by s.student_id, s.student_name
+
+CREATE TABLE courses (
+course_id  VARCHAR(10)  PRIMARY KEY,
+course_name VARCHAR(100) NOT NULL,
+credits INT NOT NULL
+ 
+)
+
+insert into courses (course_id, course_name, credits) VALUES 
+('C01', 'intro cs chapter1', 3),
+('C02', 'intro cs basics', 2)
+
+select * from courses
+
+create TABLE enrollment (
+enrollment_id INT PRIMARY KEY,
+student_id INT,
+course_id VARCHAR(10),
+enrollment_date VARCHAR(100),
+FOREIGN KEY  (student_id) REFERENCES students(student_id),
+FOREIGN KEY (course_id) REFERENCES courses(course_id)
+)
+
+insert into enrollment VALUES 
+(1, 1, 'C01', '27-02-2026')
+
+select * from enrollment
+
+select s.student_id, s.student_name, s.department, e.enrollment_date, c.course_id, c.course_name
+from students s
+INNER JOIN enrollment e ON s.student_id = e.student_id
+INNER JOIN courses c ON e.course_id = c.course_id
+ORDER BY  s.student_name, c.course_name
+
+CREATE TABLE student_mark_details(
+id int PRIMARY KEY AUTO_INCREMENT,
+student_id int,
+subject_detail VARCHAR(100),
+mark int
+)
+
+INSERT INTO student_mark_details (student_id, subject_detail, mark) VALUES 
+(2, 'science', 80)
+
+select * from student_mark_details
 
