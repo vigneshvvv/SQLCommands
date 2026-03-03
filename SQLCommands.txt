@@ -125,3 +125,32 @@ INSERT INTO student_mark_details (student_id, subject_detail, mark) VALUES
 
 select * from student_mark_details
 
+ALTER TABLE student_mark_details ADD COLUMN year_joined VARCHAR(100)
+
+ALTER TABLE student_mark_details DROP COLUMN year_joined
+
+ALTER TABLE student_mark_details ALTER COLUMN mark NOT NULL
+
+DROP TABLE student_mark_details
+
+create TABLE students(
+student_id int PRIMARY KEY,
+student_name VARCHAR(50),
+department VARCHAR(50)
+)
+
+create TABLE student_marks(
+ mark_id int PRIMARY KEY,
+ student_id int,
+ subject_name VARCHAR(50),
+ mark int,
+ FOREIGN KEY(student_id) REFERENCES students(student_id)
+)
+
+WITH studentmarks AS (
+SELECT student_id, AVG(mark) as avg_mark from student_marks GROUP BY student_id)
+SELECT s.student_name, sa.avg_mark FROM students s INNER JOIN studentmarks sa ON s.student_id = sa.student_id
+
+SET SQL_SAFE_UPDATES = 0
+
+
