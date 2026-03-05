@@ -80,6 +80,8 @@ left join student_marks m ON s.student_id = m.student_id group by s.student_id, 
 select s.student_id, s.student_name, count(m.mark_id) as no_of_subject, AVG(m.mark) as Average_mark 
 FROM students s left join student_marks m ON s.student_id = m.student_id group by s.student_id, s.student_name
 
+
+
 CREATE TABLE courses (
 course_id  VARCHAR(10)  PRIMARY KEY,
 course_name VARCHAR(100) NOT NULL,
@@ -146,11 +148,40 @@ create TABLE student_marks(
  mark int,
  FOREIGN KEY(student_id) REFERENCES students(student_id)
 )
+select s.student_id, avg(m.mark) as avgMark FROM students s join student_marks m ON s.student_id = m.student_id group by m.student_id
 
 WITH studentmarks AS (
 SELECT student_id, AVG(mark) as avg_mark from student_marks GROUP BY student_id)
 SELECT s.student_name, sa.avg_mark FROM students s INNER JOIN studentmarks sa ON s.student_id = sa.student_id
 
 SET SQL_SAFE_UPDATES = 0
+
+select student_id, AVG(mark) as avgmark from student_marks group by student_id
+
+CREATE TABLE orders(
+id INT PRIMARY KEY,
+customer_name VARCHAR(100),
+order_date DATE,
+delivery_time TIME,
+updated_timestamp DATETIME
+)
+
+select * from orders
+
+insert into orders values (1, 'vignesh', '2026-03-05', '10:10:00', '2026-03-05 10:10:00')
+insert into orders values (2, 'kumar', CURDATE(), '10:10:00', '2026-03-05 10:10:00')
+insert into orders values (4, 'sathish', CURDATE(), CURTIME(), NOW())
+
+select * from orders where order_date = '2026-03-05'
+
+select YEAR(order_date) from orders
+select MONTH(order_date) from orders
+select DAY(order_date) from orders
+
+select DATEDIFF('2026-03-01', '2026-03-05') from orders
+
+select * from orders where order_date >= CURDATE() - INTERVAL 7 DAY
+
+
 
 
