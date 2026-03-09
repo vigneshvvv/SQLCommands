@@ -188,6 +188,30 @@ select DATE_FORMAT(order_date, '%d/%M/%Y') from orders
 
 select DATE_FORMAT(updated_timestamp, '%d-%m-%Y %H:%i:%s') from orders
 
+select * from orders
+
+select * from orders where customer_name LIKE 'v%'
+
+select * from orders where customer_name LIKE '%th%'
+
+
+select * from orders where customer_name LIKE '_i%'
+
+select * from orders LIMIT 1
+
+select * from orders ORDER by customer_name DESC LIMIT 2
+
+select * from orders LIMIT 5 OFFSET 2
+
+select DISTINCT customer_name from orders
+
+select student_id from students 
+UNION
+select student_id from enrollment
+
+select student_id from students
+UNION ALL
+select student_id from enrollment
 
 
 
