@@ -213,5 +213,43 @@ select student_id from students
 UNION ALL
 select student_id from enrollment
 
+select * from books
 
+delimiter $$
+Create trigger before_insert_bookprice
+before insert on books
+for each row
+begin
+	set new.price = ifnull(New.price, 199);
+end $$
+delimiter ;
 
+insert into books (id, book_name, author) values (17, 'New AD', 'None')
+
+delimiter $$
+create trigger before_update_books
+before update on books
+for each row
+begin
+	set new.price = old.price *10;
+end $$
+delimiter ;
+
+select * from books
+
+CREATE TABLE person(
+id INT PRIMARY KEY,
+customer_name VARCHAR(100)
+)
+
+insert into person values(1, 'v')
+
+START TRANSACTION
+insert into person values(1,'v')
+SAVEPOINT sp1
+insert into person values(2,'M')
+
+ROLLBACK TO sp1
+COMMIT
+
+select * from person
