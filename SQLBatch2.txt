@@ -1,0 +1,42 @@
+use batch
+
+CREATE TABLE employees (
+employee_id INT primary KEY,
+first_name varchar(50) NOT NULL,
+last_name varchar(50),
+salary int NOT NULL,
+mobile_no bigint, 
+email varchar(100) UNIQUE, 
+is_active boolean NOT NULL
+)
+
+select * from employees
+
+insert into employees values(1, 'sathish', 'kumar', 20000, 123443, '123@gmail.com', true )
+insert into employees values(2, 'vignesh', 'kumar', 20000, 123443, '13@gmail.com', false )
+insert into employees values(3, 'abdul', null, 20000, 123443, '134@gmail.com', false )
+
+insert into employees values(4, 'subhash', null,  30000, 123443, '1324@gmail.com', false)
+insert into employees values(5, 'bob', null,  10000, 123443, '13244@gmail.com', false)
+
+select first_name, last_name from employees
+
+select * from employees where  is_active = true
+
+select * from employees where salary >= 20000 and is_active = false and mobile_no = 123443
+
+update employees set is_active = true where employee_id = 4
+
+update employees set is_active = true, salary = 25000 where employee_id = 2
+
+
+
+select * from employees where employee_id = 2 
+ 
+ALTER TABLE employees ADD department VARCHAR(100)
+
+ALTER TABLE employees DROP COLUMN department 
+
+ALTER TABLE employees MODIFY COLUMN department INT
+
+ALTER TABLE employees rename COLUMN department TO departments 
