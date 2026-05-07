@@ -29,14 +29,28 @@ update employees set is_active = true where employee_id = 4
 
 update employees set is_active = true, salary = 25000 where employee_id = 2
 
-
-
 select * from employees where employee_id = 2 
  
 ALTER TABLE employees ADD department VARCHAR(100)
-
 ALTER TABLE employees DROP COLUMN department 
 
 ALTER TABLE employees MODIFY COLUMN department INT
 
-ALTER TABLE employees rename COLUMN department TO departments 
+ALTER TABLE employees rename COLUMN department TO departments
+
+update employees set department = 'TESTING' where employee_id = 5
+
+select department, count(employee_id) from employees group by department
+
+select department, count(employee_id) from employees where is_active = 1 group by department
+
+select department, AVG(salary) from employees group by department
+
+select MAX(salary), MIN(salary) from employees 
+
+select department, AVG(salary) from employees group by department having AVG(salary) > 20000
+
+select department as Department, SUM(salary) as totalSalary from employees group by department having totalSalary > 20000
+
+select first_name, salary from employees ORDER BY salary ASC
+select first_name, salary from employees ORDER BY salary DESC
