@@ -54,3 +54,23 @@ select department as Department, SUM(salary) as totalSalary from employees group
 
 select first_name, salary from employees ORDER BY salary ASC
 select first_name, salary from employees ORDER BY salary DESC
+
+CREATE TABLE customers(
+customer_id INT PRIMARY KEY AUTO_INCREMENT,
+customer_name VARCHAR(100) NOT NULL, 
+email_id VARCHAR(100) NOT NULL,
+mobile_number VARCHAR(13),
+address VARCHAR(100),
+country VARCHAR(50)
+)
+
+CREATE TABLE product(
+product_id INT PRIMARY KEY AUTO_INCREMENT,
+product_name VARCHAR(100),
+product_description VARCHAR(200),
+price INT,
+is_available boolean
+)
+
+
+
