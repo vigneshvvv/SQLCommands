@@ -72,5 +72,58 @@ price INT,
 is_available boolean
 )
 
+CREATE TABLE orderDetails(
+order_id INT PRIMARY KEY AUTO_INCREMENT,
+total_amount INT,
+customer_id INT,
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+
+)
+
+CREATE TABLE order_items(
+item_id int PRIMARY KEY AUTO_INCREMENT,
+order_id int,
+product_id int,
+quantity int,
+FOREIGN KEY (order_id) REFERENCES orderDetails(order_id),
+FOREIGN KEY (product_id) REFERENCES product(product_id)
+
+)
+
+select * from orderDetails
+INSERT INTO customers (customer_name, email_id,mobile_number,address,country) VALUES 
+('abdul', '123@gmail.com', '2312313', 'chennai', 'india'),
+('Deva', '13@gmail.com', '231213', 'Madurai', 'india'),
+('revanth', 're@gmail.com', '2312313', 'trichy', 'india')
+
+select * from customers
+
+insert into product (product_name, product_description, price,is_available) VALUES 
+("vivo v9", "mobile", 20000, true),
+("vivo v11", "mobile", 30000, true),
+("Nothing", "mobile", 32000, true)
+
+select * from product
+
+INSERT INTO orderDetails (total_amount, customer_id) VALUES 
+(30000, 5)
+
+select * from orderDetails
+
+INSERT INTO order_items (order_id, product_id,quantity) values 
+(2, 3, 1) 
+
+select * from order_items
+
+select c.customer_name, c.email_id, c.mobile_number, c.address, c.country,o.total_amount  
+from customers c LEFT JOIN orderDetails o ON c.customer_id = o.customer_id
+
+select c.customer_name, c.email_id, c.mobile_number, c.address, c.country,o.total_amount  
+from customers c RIGHT JOIN orderDetails o ON c.customer_id = o.customer_id
+
+select c.customer_name, c.email_id, c.mobile_number, c.address, c.country,o.total_amount  
+from customers c LEFT JOIN orderDetails o ON c.customer_id = o.customer_id where o.total_amount is null
+
+
 
 
