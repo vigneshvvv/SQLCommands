@@ -106,7 +106,7 @@ insert into product (product_name, product_description, price,is_available) VALU
 select * from product
 
 INSERT INTO orderDetails (total_amount, customer_id) VALUES 
-(30000, 5)
+(30000, 1)
 
 select * from orderDetails
 
@@ -124,6 +124,59 @@ from customers c RIGHT JOIN orderDetails o ON c.customer_id = o.customer_id
 select c.customer_name, c.email_id, c.mobile_number, c.address, c.country,o.total_amount  
 from customers c LEFT JOIN orderDetails o ON c.customer_id = o.customer_id where o.total_amount is null
 
+select p.product_id, p.product_name, p.product_description, p.price, p.is_available, oi.item_id, oi.order_id, oi.quantity
+ from product p INNER JOIN order_items oi on p.product_id = oi.product_id
+ 
+ select c.customer_id, c.customer_name, c.email_id, c.mobile_number, c.address,c.country, o.total_amount, oi.quantity, p.product_name, p.product_description,p.price, p.is_available 
+ from customers c INNER JOIN orderDetails o on c.customer_id = o.customer_id
+ INNER JOIN order_items oi on oi.order_id = o.order_id
+ INNER JOIN product p ON oi.product_id = p.product_id ORDER BY o.total_amount DESC
+ 
+ select c.customer_id, c.customer_name, c.email_id, c.mobile_number, c.address,c.country, o.total_amount 
+ from customers c LEFT JOIN orderDetails o ON c.customer_id = o.customer_id
+ UNION
+ select c.customer_id, c.customer_name, c.email_id, c.mobile_number, c.address,c.country, o.total_amount 
+ from customers c RIGHT JOIN orderDetails o ON c.customer_id = o.customer_id
+ 
+ select c.customer_name, COUNT(o.order_id) AS total_count from customers c 
+ LEFT JOIN orderDetails o ON c.customer_id = o.customer_id
+ group by  c.customer_name
+ 
+CREATE TABLE product_orders (
+id int PRIMARY KEY,
+customer_name VARCHAR(100),
+order_date DATE,
+delivery_time TIME,
+updated_timestamp DATETIME
+ )
+ 
+ insert into product_orders values (1, 'vignesh', '2026-05-18', '10:10:00', '2026-05-18 10:10:00') 
+ 
+ select * from product_orders
 
+insert into product_orders values (2, 'sathish', CURDATE(), CURTIME(), NOW())
 
+select * from product_orders where order_date = '2026-05-18'
 
+select YEAR(order_date) from product_orders
+
+select MONTH(order_date) from product_orders
+select DAY(order_date) from product_orders
+
+select * from product_orders where order_date >= CURDATE() - INTERVAL 7 DAY
+
+select DATE_FORMAT(order_date, '%d-%m-%y') from product_orders
+
+select DATE_FORMAT(order_date, '%d/%m/%y') from product_orders
+
+select DATE_FORMAT(updated_timestamp, '%d-%m-%y %H:%i:%s')from product_orders
+
+select * from product_orders where customer_name LIKE 's%'
+
+select * from product_orders where customer_name LIKE '%ig%'
+
+select * from product_orders where customer_name LIKE '_a%'
+
+select * from product_orders ORDER BY customer_name DESC LIMIT 2
+
+select * from product_orders where order_date = CURDATE() LIMIT 1
