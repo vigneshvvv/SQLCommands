@@ -180,3 +180,66 @@ select * from product_orders where customer_name LIKE '_a%'
 select * from product_orders ORDER BY customer_name DESC LIMIT 2
 
 select * from product_orders where order_date = CURDATE() LIMIT 1
+
+CREATE TABLE productInformation (
+id INT PRIMARY KEY,
+product_name VARCHAR(100),
+price int
+
+)
+
+DELIMETER //
+
+CREATE TRIGGER set_default_price_trigger
+before INSERT ON productInformation
+FOR EACH ROW
+BEGIN
+  IF NEW.price IS NULL THEN
+	SET NEW.price = 499;
+  END  IF;
+END; //
+  
+  DELIMETER ;
+  
+DELIMETER //
+
+CREATE TRIGGER set_default_price_data
+BEFORE INSERT ON productInformation
+FOR EACH ROW
+BEGIN
+	IF NEW.price IS NULL THEN
+		SET NEW.price = 499;
+	END IF;
+END //
+
+DELIMETER;
+  
+
+
+
+
+CREATE TRIGGER set_default_price_data
+BEFORE INSERT ON productInformation
+FOR EACH ROW 
+SET NEW.price = ifnull(NEW.price, 499);
+
+insert into productInformation (id, product_name) values (1, 'mobile')
+
+select * from productInformation
+
+CREATE TRIGGER update_price_trigger
+BEFORE UPDATE ON productInformation
+FOR EACH ROW 
+SET NEW.price = IFNULL(NEW.price, 399);
+
+UPDATE productInformation SET price = NULL where id = 1;
+
+CREATE TRIGGER check_price_trigger
+BEFORE INSERT ON productInformation
+FOR EACH ROW
+SET NEW.price = IF(NEW.price < 100, 100, NEW.price)
+
+insert into productInformation (id, product_name, price) values (2, 'mobile', 50)
+
+select * from productInformation
+
