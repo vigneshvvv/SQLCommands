@@ -1,0 +1,51 @@
+USE  sessionThree
+
+CREATE TABLE product(
+id INT PRIMARY KEY,
+product_name VARCHAR(100),
+category VARCHAR(100),
+price INT);
+
+select * from product
+
+ALTER TABLE product ADD isAvailable boolean
+
+ALTER TABLE product MODIFY price BIGINT
+
+ALTER TABLE product CHANGE price  mrp_price BIGINT
+
+ALTER TABLE product DROP COLUMN isAvailable
+
+INSERT INTO product (id, product_name, category,mrp_price)  VALUES (1, 'samsung_Galaxy', 'Elecronics', 50000)
+
+select * from product
+INSERT INTO product (id, product_name, category,mrp_price)  VALUES 
+(2, 'apple SE', 'Elecronics', 60000),
+(3, 'vivo v9', 'Elecronics', 20000)
+
+INSERT INTO product VALUES (4, 'Redmi', 'Electronics', 18000) 
+
+INSERT INTO product (id, product_name,mrp_price)  VALUES (5, 'Virtue', 100000)
+
+select * from product where mrp_price = 20000
+select * from product where mrp_price >= 20000
+
+INSERT INTO product VALUES (6, 'The subtle ART', 'Books', 399) 
+INSERT INTO product VALUES (7, 'Remote Car', 'Toys', 599)
+INSERT INTO product VALUES (8, 'Remote', 'Toys', 599)
+
+select * from product
+
+select * from product where mrp_price <= 20000 and category = 'Books'
+
+UPDATE product SET category = 'Electronics' where id = 5
+
+DELETE FROM product where id = 8
+
+select * from product where mrp_price <= 20000 and category = 'Books' OR  category = 'Toys'
+
+select * from product where category in ('Books', 'Toys')
+
+
+
+
