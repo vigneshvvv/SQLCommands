@@ -46,6 +46,65 @@ select * from product where mrp_price <= 20000 and category = 'Books' OR  catego
 
 select * from product where category in ('Books', 'Toys')
 
+use sessionThree
+
+CREATE TABLE Employee(
+emp_id INT PRIMARY KEY,
+emp_name VARCHAR(100) NOT NULL,
+department VARCHAR(50),
+salary INT,
+city VARCHAR(50)
+
+)
+
+INSERT INTO Employee VALUES(1, 'Vignesh','IT', 50000, 'Chennai'),
+(2, 'Deva', 'IT', 60000, 'Chennai'),
+(3, 'Arun', 'IT', 40000, 'Banglore'),
+(4, 'Abdul', 'IT', 30000, 'Banglore'),
+(5, 'Revanth', 'IT', 90000, 'Madurai')
+
+INSERT INTO Employee VALUES (6, 'Guru', 'TESTING', 45000,'Chennai')
+
+select * from Employee
+
+select emp_name,department from Employee
+
+Select department, count(*) AS total_employees from Employee GROUP BY department
+
+select department, SUM(salary) AS total_salary_spent from Employee GROUP BY department
+
+Select department, AVG(salary) AS averageSalarySpent from Employee GROUP BY department
+
+select department, MAX(salary) AS high_salary from Employee GROUP BY department
+
+select department, MIN(salary) AS high_salary from Employee GROUP BY department
+
+select department, MIN(salary) AS high, MAX(salary) AS low_salary from Employee GROUP BY department
+select city, COUNT(*) as no_of_persons from Employee GROUP BY city
+
+select department, city, COUNT(*) as total from Employee GROUP BY department, city
+
+select COUNT(*) as total_employees from Employee
+
+select SUM(salary) as total_salary from Employee
+
+select MAX(salary) AS highest_salary from Employee
+
+select count(*) AS total_emp from Employee where city = 'Chennai'
+
+select SUM(salary) from Employee where department = 'IT'
+
+select MAX(salary) AS highest_salary from Employee where department in ('IT','TESTING')
+
+select MAX(salary) from Employee
+
+select * from Employee where salary = 90000
+
+select * from Employee where salary = (select Max(salary) FROM Employee)
+
+select * from Employee ORDER BY salary DESC
+
+select * from Employee ORDER BY salary ASC
 
 
 
