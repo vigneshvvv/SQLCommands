@@ -107,4 +107,77 @@ select * from Employee ORDER BY salary DESC
 select * from Employee ORDER BY salary ASC
 
 
+use sessionThree
 
+CREATE TABLE Customers(
+customer_id INT PRIMARY KEY,
+customer_name VARCHAR(50),
+city VARCHAR(50)
+
+)
+
+
+CREATE TABLE product_info(
+product_id INT PRIMARY KEY,
+product_name VARCHAR(50),
+price DECIMAL(10,2)
+)
+
+CREATE TABLE Orders(
+order_id INT PRIMARY KEY,
+customer_id INT,
+product_id INT,
+quantity INT,
+FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+FOREIGN KEY (product_id) REFERENCES product_info(product_id)
+)
+
+INSERT INTO Customers VALUES
+(1, 'Vignesh', 'Chennai'),
+(2, 'Rahul', 'Hyderabad'),
+(3, 'Deva', 'Madurai'),
+(4, 'Abdul', 'Delhi')
+
+
+INSERT INTO product_info VALUES
+(101, 'Laptop', 50000),
+(102, 'Mobile', 30000),
+(103, 'EarPod', 1000),
+(104, 'Smart Watch', 10000)
+
+INSERT INTO product_info VALUES
+(105, 'RasperryPi', 5000)
+
+
+INSERT INTO Orders VALUES
+(1001, 1, 101, 1),
+(1002, 1, 103, 2),
+(1003, 2, 102, 1),
+(1004, 3, 104, 1)
+
+select * from Customers
+
+select * from product_info
+select * from Orders
+
+
+select c.customer_name, c.city,p.product_name, p.price, o.quantity
+FROM Orders o INNER JOIN Customers c ON  o.customer_id = c.customer_id
+INNER JOIN product_info p ON o.product_id = p.product_id
+
+select c.customer_name, c.city,p.product_name, p.price, o.quantity 
+from Customers c LEFT JOIN Orders o ON c.customer_id = o.customer_id
+LEFT JOIN product_info p ON o.product_id = p.product_id
+
+select c.customer_name, c.city,p.product_name, p.price, o.quantity FROM 
+Customers c  RIGHT JOIN Orders o ON c.customer_id = o.customer_id
+RIGHT JOIN product_info p ON o.product_id = p.product_id
+
+
+select c.customer_name, c.city,p.product_name, p.price, o.quantity 
+from Customers c LEFT JOIN Orders o ON c.customer_id = o.customer_id
+LEFT JOIN product_info p ON o.product_id = p.product_id
+UNION
+select c.customer_name, c.city,p.product_name, p.price, o.quantity FROM 
+Customers c  RIGHT JOIN Orders o ON c.customer_id = o.customer_id
+RIGHT JOIN product_info p ON o.product_id = p.product_id  
