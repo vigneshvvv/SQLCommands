@@ -267,4 +267,52 @@ age INT CHECK (age >=18)
 INSERT INTO employee_details (emp_name,age) VALUES ('Sam', 18)
 select * from employee_details
 
+use sessionThree
+select * from employee_details
+
+
+CREATE TABLE orderDetails(
+id INT PRIMARY KEY,
+customer_name VARCHAR(100),
+order_date DATE,
+delivery_time TIME,
+updated_timestamp DATETIME
+)
+
+
+insert into orderDetails VALUES (1, 'vignesh', '2026-07-04', '10:10:00', '2026-07-04 10:00:00'),
+(2, 'Kumar', CURDATE(), CURTIME(), NOW()),
+(3, 'Suresh', CURDATE(), CURTIME(), NOW())
+
+select * from orderDetails where order_date = '2026-07-04'
+
+select YEAR(order_date) from orderDetails
+select MONTH(order_date) from orderDetails
+select DAY(order_date) from orderDetails
+
+select DATE_FORMAT(order_date, "%d%m%y") from orderDetails
+select DATE_FORMAT(order_date, "%d-%m-%y") from orderDetails
+select DATE_FORMAT(order_date, "%d/%m/%y") from orderDetails
+
+select DATE_FORMAT(updated_timestamp, "%d-%m-%Y %H: %i: %s") from orderDetails
+
+
+select * from orderDetails where order_date >= CURDATE() - INTERVAL 7 DAY
+
+select * from orderDetails where customer_name LIKE 'v%'
+
+select * from orderDetails where customer_name LIKE '%ma%'
+
+select * from orderDetails where customer_name LIKE '_i%'
+
+select * from orderDetails LIMIT 2
+
+select * from orderDetails ORDER BY updated_timestamp DESC LIMIT 2
+
+select DISTINCT customer_name from orderDetails order by customer_name ASC
+
+
+
+
+
 
