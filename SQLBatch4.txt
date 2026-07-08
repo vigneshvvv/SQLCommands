@@ -94,6 +94,106 @@ department VARCHAR(50)
 insert into studentDetails (student_name, age,department) VALUES ("Harish", 18, "CSE")
 select * from studentDetails
 
+select * from employeeDetails where department = "DEV"
+
+select * from employeeDetails where salary >= 50000 and place = "Madurai"
+
+select department, count(*) from employeeDetails group by department
+
+select place, count(*) as total_employee from employeeDetails group by place
+
+create table customers(
+customer_id INT PRIMARY KEY AUTO_INCREMENT,
+customer_name VARCHAR(30),
+ city VARCHAR(20)
+
+)
+
+CREATE TABLE Products(
+product_id INT PRIMARY KEY AUTO_INCREMENT,
+product_name VARCHAR(100),
+price DECIMAL(10,2)
+
+)
+
+CREATE TABLE order_details(
+order_id INT PRIMARY KEY AUTO_INCREMENT,
+customer_id INT,
+product_id INT,
+quantity INT,
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+FOREIGN KEY (product_id) REFERENCES Products(product_id)
+)
+
+INSERT into customers (customer_name, city) values ("Arun", "Chennai"),
+("Rahul", "Banglore"),
+("Suresh", "Madurai"),
+("Deva", "Banglore")
+
+select * from customers
+
+insert into Products (product_name, price) VALUES ("Laptop", 60000),
+("Mouse", 500),
+("Keyboard", 1500),
+("mobile", 20000)
+
+insert into order_details ( customer_id,product_id,quantity) VALUES
+(1, 1, 2),
+(1,2,1),
+(2, 4, 1),
+(3, 3, 1) 
+
+select * from order_details
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity from customers  c 
+LEFT JOIN order_details o  ON c.customer_id = o.customer_id
+LEFT JOIN Products p ON o.product_id = p.product_id
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity from customers  c 
+INNER JOIN order_details o  ON c.customer_id = o.customer_id
+INNER JOIN Products p ON o.product_id = p.product_id
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity from customers  c 
+RIGHT JOIN order_details o  ON c.customer_id = o.customer_id
+RIGHT JOIN Products p ON o.product_id = p.product_id
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity from customers  c 
+LEFT JOIN order_details o  ON c.customer_id = o.customer_id
+LEFT JOIN Products p ON o.product_id = p.product_id
+UNION
+select c.customer_name, c.city, p.product_name, p.price, o.quantity from customers  c 
+RIGHT JOIN order_details o  ON c.customer_id = o.customer_id
+RIGHT JOIN Products p ON o.product_id = p.product_id
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity, 
+(p.price * o.quantity) as total_Amount
+FROM order_details o INNER JOIN  customers  c  ON o.customer_id = c.customer_id
+INNER  JOIN Products p ON o.product_id = p.product_id
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity from customers  c 
+INNER JOIN order_details o  ON c.customer_id = o.customer_id
+INNER JOIN Products p ON o.product_id = p.product_id where p.product_name = "Laptop"
+
+
+select c.customer_name, c.city, p.product_name, p.price, o.quantity, 
+(p.price * o.quantity) as total_Amount
+FROM order_details o INNER JOIN  customers  c  ON o.customer_id = c.customer_id
+INNER  JOIN Products p ON o.product_id = p.product_id where (p.price * o.quantity) > 50000
+
+select c.customer_name, SUM(p.price * o.quantity) as Total_Amount 
+from order_details o LEFT JOIN Products p on o.product_id = p.product_id 
+LEFT JOIN customers  c  ON o.customer_id = c.customer_id group by c.customer_name
+
+
+select c.customer_name, COUNT(o.order_id) as number_of_Orders
+FROM customers  c LEFT JOIN  order_details o on o.customer_id = c.customer_id
+group by c.customer_name HAVING COUNT(o.order_id) >1
+
+select p.product_name, SUM(o.quantity) as total_quantity 
+from order_details o LEFT JOIN Products p on o.product_id = p.product_id
+group by p.product_name having SUM(o.quantity) > 1
+
+
 
 
 
