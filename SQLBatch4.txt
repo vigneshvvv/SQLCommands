@@ -130,12 +130,15 @@ INSERT into customers (customer_name, city) values ("Arun", "Chennai"),
 ("Suresh", "Madurai"),
 ("Deva", "Banglore")
 
-select * from customers
+select * from customers LIMIT 1
 
 insert into Products (product_name, price) VALUES ("Laptop", 60000),
 ("Mouse", 500),
 ("Keyboard", 1500),
 ("mobile", 20000)
+
+select * from Products order by price ASC
+select * from Products order by price DESC
 
 insert into order_details ( customer_id,product_id,quantity) VALUES
 (1, 1, 2),
@@ -183,6 +186,7 @@ INNER  JOIN Products p ON o.product_id = p.product_id where (p.price * o.quantit
 select c.customer_name, SUM(p.price * o.quantity) as Total_Amount 
 from order_details o LEFT JOIN Products p on o.product_id = p.product_id 
 LEFT JOIN customers  c  ON o.customer_id = c.customer_id group by c.customer_name
+order by SUM(p.price * o.quantity) ASC
 
 
 select c.customer_name, COUNT(o.order_id) as number_of_Orders
@@ -192,6 +196,113 @@ group by c.customer_name HAVING COUNT(o.order_id) >1
 select p.product_name, SUM(o.quantity) as total_quantity 
 from order_details o LEFT JOIN Products p on o.product_id = p.product_id
 group by p.product_name having SUM(o.quantity) > 1
+
+-- DECIMAL (1,1) - 0.0-0.9
+-- DECIMAL (2,1) - 0.0-9.9
+-- DECIMAL(3,1) - 00.0 -99.9
+-- DECIMAL (4,2) - 00.00 - 99.99
+-- DECIMAL(5,2) - 999.99
+
+CREATE TABLE Orders(
+id INT PRIMARY KEY,
+customer_name VARCHAR(50),
+orderedDate DATE,
+orderedTime TIME,
+updated DATETIME
+
+)
+
+insert into Orders  VALUES (1, "vignesh", "2026-07-10", "10:10:00", "2026-07-10 10:10:00")
+insert into Orders  VALUES (2, "Ashok", CURDATE(), CURTIME(), NOW())
+select * from Orders
+select DATE_FORMAT(orderedDate, "%d%m%y") from Orders
+
+select DATE_FORMAT(orderedDate, "%d/%m/%y") from Orders
+select DATE_FORMAT(orderedDate, "%d-%m-%Y") from Orders
+
+
+select DATE_FORMAT(updated, "%d-%m-%y %H: %i: %s") from Orders
+
+select * from Orders where orderedDate >= CURDATE() - INTERVAL 7 DAY
+select DISTINCT product_name from Products
+
+
+
+DELIMETER //
+
+CREATE TRIGGER set_default_price
+before insert ON Products
+FOR EACH ROW 
+DEGIN
+	if NEW.price IS NULL THEN
+		SET NEW.price = 199;
+	END IF;
+END; //
+
+DELIMETER;
+
+
+CREATE TRIGGER  set_default_price
+BEFORE INSERT ON Products
+for each row
+SET NEW.price = ifnull(NEW.price, 199)
+
+insert into Products (product_name) VALUES ("charger")
+select * from Products
+
+CREATE TRIGGER update_price_trigger
+BEFORE UPDATE ON Products
+FOR EACH ROW 
+SET NEW.price = ifnull(NEW.price, 399)
+
+UPDATE Products set price = NULL where product_id= 5
+
+
+select * from Products;
+
+
+DELIMITER $$
+
+CREATE procedure get_products()
+begin
+	select * from Products;
+end $$
+DELIMITER ;
+
+SELECT version()
+
+call get_products();
+
+DELIMITER $$
+CREATE procedure get_product_by_id(in price decimal, in product_name varchar(50))
+begin	
+	select * from Products where Products.price = price 
+    and Products.prodcut_name = product_name;
+end $$
+DELIMITER ;
+
+call get_product_by_id(1500)
+
+drop procedure get_productby_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
